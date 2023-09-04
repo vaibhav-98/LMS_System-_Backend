@@ -22,7 +22,7 @@ app.use('/ping' , function(req,res){
     res.send('/Pong')
 })
 
-//*************************  routes of 3 module *******************************************//
+//************************* routes of 3 module *******************************************//
 
 app.use('api/v1/user', userRoutes)
 
