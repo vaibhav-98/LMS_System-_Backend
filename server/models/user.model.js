@@ -45,7 +45,7 @@ const userSchema = new Schema ({
 
 }, {timestamps:true});
 
-const User = model('User',userSchema) // Define a Mongoose model named 'User' using the 'userSchema' schema
+const User = model('User',userSchema) //Define a Mongoose model named 'User' using the 'userSchema' schema
 
 
 export default User
