@@ -10,5 +10,5 @@ const errorMiddilware = (err,req,res,next) =>{
     })
 }
 
-//aa
+//
 export default errorMiddilware
