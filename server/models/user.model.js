@@ -1,4 +1,6 @@
 import { Schema,model } from "mongoose";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'
 
 const userSchema = new Schema ({
   
@@ -45,7 +47,26 @@ const userSchema = new Schema ({
 
 }, {timestamps:true});
 
-const User = model('User',userSchema) // Define a Mongoose model named 'User' using the 'userSchema' schema
+userSchema.pre('save',async function(next) {
+    if(!this.isModified('password')){
+        return next()
+    }
+    this.password = await bcrypt.hash(this.password,10) 
+})
+
+userSchema.methods={
+    generateJWTToken: async function() {
+        return await jwt.sign(
+            {id:this._id , email: this.email , subscription:this.subscription, role: this.role},
+            process.env.JWT_SECRET,
+            {
+                expiresIn : '10m'
+            }
+        )
+    }
+}
+
+const User = model('testUser',userSchema) // Define a Mongoose model named 'User' using the 'userSchema' schema
 
 
 export default User
