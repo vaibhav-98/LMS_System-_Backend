@@ -35,7 +35,7 @@ const register = async (req,res, next) => {
         return next(new AppError('user registration faild, Please try again', 400))
      }
 
-     // TODO : File Uplode
+     // //TODO : File Uplode
       
 
      await user.save()
