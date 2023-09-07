@@ -1,12 +1,19 @@
 import User from "../models/user.model.js";
 import AppError from "../utils/error.utils.js"
 
+const cookieOptions = {
+   maxAge : 7*24*60*60*1000 , // 7 days
+   httpOnly : true,
+   secure: true,
+}
+
 const register = async (req,res, next) => {
     const {fullName , email , password} = req.body
+    console.log({fullName , email , password});
 
-    if(! fullName || email || password) {
-        return next(new AppError("All fields are required", 400))
-    }
+    if(!fullName || !email || !password) {
+      return next(new AppError('All fields are required', 400))
+     }
 
      const userExists = await User.findOne({email})
 
@@ -29,17 +36,26 @@ const register = async (req,res, next) => {
      }
 
      // TODO : File Uplode
+      
 
      await user.save()
 
-     register.status(201).json({
+   const token = await user.generateJWTToken();
+
+     user.password = undefined;
+
+     res.cookie('token', token, cookieOptions)
+
+     
+
+     res.status(201).json({
         success: true,
         message: 'User registration successfully',
         user
      })
 
 };
-
+//=====================================================================
 const login = (req,res) => {
 
 }
