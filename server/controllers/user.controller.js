@@ -60,7 +60,7 @@ const register = async (req, res, next) => {
   });
 };
 
-// Login handler (To be implemented)
+//==================================== Login handler (To be implemented)
 const login = (req, res) => {
   // Implement your login logic here
 };
