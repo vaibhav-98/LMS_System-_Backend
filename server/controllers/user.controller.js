@@ -65,7 +65,7 @@ const login = (req, res) => {
   // Implement your login logic here
 };
 
-// Logout handler (To be implemented)
+//=========================================== Logout handler (To be implemented)
 const logout = (req, res) => {
   // Implement your logout logic here
 };
