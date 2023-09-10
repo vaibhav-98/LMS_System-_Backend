@@ -7,7 +7,7 @@ const cookieOptions = {
   secure: true,
 };
 
-// User registration handler
+//*********************************User registration handler==================================
 const register = async (req, res, next) => {
   const { fullName, email, password } = req.body;
 
