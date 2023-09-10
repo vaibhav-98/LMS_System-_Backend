@@ -1,76 +1,78 @@
 import User from "../models/user.model.js";
-import AppError from "../utils/error.utils.js"
+import AppError from "../utils/error.utils.js";
 
 const cookieOptions = {
-   maxAge : 7*24*60*60*1000 , // 7 days
-   httpOnly : true,
-   secure: true,
-}
-
-const register = async (req,res, next) => {
-    const {fullName , email , password} = req.body
-    console.log({fullName , email , password});
-
-    if(!fullName || !email || !password) {
-      return next(new AppError('All fields are required', 400))
-     }
-
-     const userExists = await User.findOne({email})
-
-     if(userExists) {
-        return next(new AppError("Email alredy exists" , 400))
-     }
-
-     const user =  await User.create({
-        fullName,
-        email,
-        password,
-        avatar: {
-            public_id : email,
-            secure_url : "URL",
-        }
-     })
-
-     if(!user) {
-        return next(new AppError('user registration faild, Please try again', 400))
-     }
-
-     // TODO : File Uplode
-      
-
-     await user.save()
-
-   const token = await user.generateJWTToken();
-
-     user.password = undefined;
-
-     res.cookie('token', token, cookieOptions)
-
-     
-
-     res.status(201).json({
-        success: true,
-        message: 'User registration successfully',
-        user
-     })
-
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  httpOnly: true,
+  secure: true,
 };
-//=====================================================================
-const login = (req,res) => {
 
-}
+// User registration handler
+const register = async (req, res, next) => {
+  const { fullName, email, password } = req.body;
 
-const logout = (req,res) => {
+  // Check if required fields are provided
+  if (!fullName || !email || !password) {
+    return next(new AppError("All fields are required", 400));
+  }
 
-}
+  // Check if a user with the provided email already exists
+  const userExists = await User.findOne({ email });
 
-const getProfile = (req,res) => {
+  if (userExists) {
+    return next(new AppError("Email already exists", 400));
+  }
 
-}
+  // Create a new user
+  const user = await User.create({
+    fullName,
+    email,
+    password,
+    avatar: {
+      public_id: email,
+      secure_url: "URL", // You may need to replace this with the actual URL.
+    },
+  });
 
-export {
-    register,
-    login,
-    logout,
-    getProfile
-}
+  if (!user) {
+    return next(new AppError("User registration failed. Please try again", 400));
+  }
+
+  // TODO: File Upload - You can add code here for handling file uploads, if needed.
+
+  // Save the user to the database
+  await user.save();
+
+  // Generate a JWT token for the user
+  const token = await user.generateJWTToken();
+
+  // Remove the password from the user object for security
+  user.password = undefined;
+
+  // Set the token as a cookie with the specified options
+  res.cookie("token", token, cookieOptions);
+
+  // Respond with a success message and the user data
+  res.status(201).json({
+    success: true,
+    message: "User registration successfully",
+    user,
+  });
+};
+
+// Login handler (To be implemented)
+const login = (req, res) => {
+  // Implement your login logic here
+};
+
+// Logout handler (To be implemented)
+const logout = (req, res) => {
+  // Implement your logout logic here
+};
+
+// Get user profile handler (To be implemented)
+const getProfile = (req, res) => {
+  // Implement your profile retrieval logic here
+};
+
+export { register, login, logout, getProfile };
