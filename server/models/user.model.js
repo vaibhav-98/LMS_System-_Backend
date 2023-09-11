@@ -63,7 +63,11 @@ userSchema.methods={
                 expiresIn : '10m'
             }
         )
+    },
+    comparePassword:async function(plainTextPassword) {
+        return await bcrypt.compare(plainTextPassword, this.password)
     }
+
 }
 
 const User = model('testUser',userSchema) // Define a Mongoose model named 'User' using the 'userSchema' schema
