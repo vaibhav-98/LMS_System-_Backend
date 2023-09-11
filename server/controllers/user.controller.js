@@ -61,8 +61,15 @@ const register = async (req, res, next) => {
 };
 
 //==================================== Login handler (To be implemented)
-const login = (req, res) => {
+const login = async(req, res,next) => {
   // Implement your login logic here
+  const { email , password} = req.body;
+
+  if(!email || !password){
+    return next(new AppError("All fields are required", 400));
+  }
+
+  const user = User.findOne({email}).select('+password')
 };
 
 //=========================================== Logout handler (To be implemented)
