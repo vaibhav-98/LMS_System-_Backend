@@ -1,5 +1,8 @@
 import User from "../models/user.model.js";
 import AppError from "../utils/error.utils.js";
+import cloudinary  from "cloudinary";
+import fs from 'fs/promises'
+
 
 const cookieOptions = {
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -10,7 +13,7 @@ const cookieOptions = {
 //*********************************User registration handler==================================
 const register = async (req, res, next) => {
   const { fullName, email, password } = req.body;
-
+    console.log(fullName, email, password, );
   // Check if required fields are provided
   if (!fullName || !email || !password) {
     return next(new AppError("All fields are required", 400));
@@ -41,7 +44,33 @@ const register = async (req, res, next) => {
   }
 
   // TODO: File Upload - You can add code here for handling file uploads, if needed.
+       
+  console.log("File upload > " ,JSON.stringify(req.file));
+   if(req.file) {
+    try {
+      const result =await cloudinary.v2.uploader.upload(req.file.path,{
+        folder:'lms',
+        width:250,
+        height:250,
+        gravity:'faces',
+        crop:'fill'
+      });
 
+      if(result){
+        user.avatar.public_id =  result.public_id;
+        user.avatar.secure_url =  result.secure_url
+
+        //Remove file from server
+        // fs.rm(`uploads/${req.file.filename}`)
+
+
+      }
+    } catch (error) {
+      return next(
+        new AppError(error || 'File not uploaded , please try again',500)
+      )
+    }
+   }
   // Save the user to the database
   await user.save();
 
@@ -117,10 +146,14 @@ const getProfile = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "User details",
-      user,
+      user
     });
   } catch (error) {
     return next(new AppError("Failed to fetch profile", 500));
+    // res.status(500).json({
+    //   success:false,
+    //   message: error.message,
+    // })
   }
 };
 
