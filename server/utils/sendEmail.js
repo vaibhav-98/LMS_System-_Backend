@@ -22,5 +22,5 @@ const sendEmail = async function (email, subject, message) {
     html: message, // html body
   });
 };
-//jggygg
+//jggyg
 export default sendEmail;
