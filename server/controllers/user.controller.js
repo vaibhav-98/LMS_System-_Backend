@@ -200,7 +200,7 @@ const forgotPassword = async (req,res,next) => {
   }
 
 
-//dcdjdj
+//dcdj
 }
 
 const resetPassword = () => {
