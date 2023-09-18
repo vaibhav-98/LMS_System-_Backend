@@ -251,7 +251,7 @@ const resetPassword = async(req,res,next) => {
 
 }
 
-//ab
+//
 export { 
   register,
    login, 
