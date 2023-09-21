@@ -296,7 +296,7 @@ const changePassword = async (req,res) => {
 
 
 }
-
+//=============================== updateUser ===========================================================
 const updateUser = async (req,res) => {
    const { fullName } = req.body;
    const { id } = req.user.id ; // Auth.js
