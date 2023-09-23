@@ -10,7 +10,7 @@ const getAllCourses = async (req,res,next) => {
     })
 
 }
-
+//=================================getLecturesByCourseId=========================//
 const getLecturesByCourseId = async (req,res,next) => {
      try {
         const { id } = req.params;
