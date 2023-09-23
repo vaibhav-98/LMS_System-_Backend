@@ -1,5 +1,6 @@
 import Course from "../models/course.model.js"
 import AppError from "../utils/error.utils.js";
+//==================== getAllCourses ==============================================//
 const getAllCourses = async (req,res,next) => {
     const course  = await Course.find({}).select('-lectures')
 
