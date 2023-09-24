@@ -15,10 +15,10 @@ const cookieOptions = {
 
 //********************************* User registration handler =====================================//
 const register = async (req, res, next) => {
-  const { fullName, email, password } = req.body;
-    console.log(fullName, email, password, );
+  const { fullName, email, password , role} = req.body;
+    console.log(fullName, email, password,role );
   // Check if required fields are provided
-  if (!fullName || !email || !password) {
+  if (!fullName || !email || !password || !role) {
     return next(new AppError("All fields are required", 400));
   }
 
@@ -34,6 +34,7 @@ const register = async (req, res, next) => {
     fullName,
     email,
     password,
+    role,
     avatar: {
       public_id: email,
       secure_url: "URL", // You may need to replace this with the actual URL.
@@ -104,7 +105,8 @@ const login = async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
-
+    console.log({user});
+    // console.log(`compare password ${user.comparePassword(password)}`);
   if (!user || !user.comparePassword(password)) {
     return next(new AppError("Email or password does not match"));
   }
@@ -268,15 +270,14 @@ const changePassword = async (req,res) => {
   }
 
   const user = User.findById(id).select('+password')
-
+  //  console.log({ user });
   if(!user){
     return next (
       new AppError('User does not exist',400)
    )
   }
-
   const isPasswordValid = await user.comparePassword(oldPassword)
-
+   
   if(!isPasswordValid){
     return next (
       new AppError('Invalid old password',400)
