@@ -105,9 +105,9 @@ const login = async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
-    console.log({user});
-    // console.log(`compare password ${user.comparePassword(password)}`);
-  if (!user || !user.comparePassword(password)) {
+    const compare = await user.comparePassword(password)
+    console.log(compare, 'fffffffff')
+  if (!user || !compare) {
     return next(new AppError("Email or password does not match"));
   }
 
