@@ -3,7 +3,7 @@ import AppError from "../utils/error.utils.js";
 import cloudinary  from "cloudinary";
 import fs from 'fs/promises'
 
-//===============================================================================================//
+//======================================= Create Course ========================================================//
 
 const CreateCourse = async (req, res, next) => {
         
@@ -105,7 +105,7 @@ const getLecturesByCourseId = async (req,res,next) => {
 }
 
 
-
+//============================================= Update Course =====================================
 const updateCourse = async (req,res,next) => {
       try {
         const { id } = req.params;
@@ -143,6 +143,7 @@ const updateCourse = async (req,res,next) => {
 
 }
 
+//================================================== Delete Course===================================//
 const removeCourse = async (req,res,next) =>{
     try {
         const { id } = req.params;
@@ -170,7 +171,7 @@ const removeCourse = async (req,res,next) =>{
 }
 
 const addLectureToCourseById = async (req,res,next) =>{
-    const { title , description } = req.body;7
+    const { title , description } = req.body;
     const { id } = req.params;
       
     if(!title || !description) {
@@ -232,3 +233,4 @@ export {
     removeCourse,
     addLectureToCourseById
 }
+//baxba
