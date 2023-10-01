@@ -210,7 +210,7 @@ const forgotPassword = async (req,res,next) => {
 
 
 }
-//=======================================================resetPassword=============================//
+//======================================================= resetPassword =============================//
 
 
 const resetPassword = async(req,res,next) => {
@@ -366,3 +366,4 @@ export {
    };
 
    
+//dsdfksdffksb
