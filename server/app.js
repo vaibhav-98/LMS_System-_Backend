@@ -6,7 +6,8 @@ import { config } from 'dotenv'; // Load environment variables from a .env file
 import morgan from 'morgan'; // Logger middleware for logging HTTP requests
 import userRoutes from "./routes/user.routes.js"; // Import user routes
 import errorMiddleware from './middlewares/error.middelware.js'; // Import error middleware
-
+import courseRoutes from "./routes/course.routes.js"
+import paymentRoutes from "./routes/payment.routes.js"
 // Load environment variables from .env file
 config();
 
@@ -15,6 +16,8 @@ const app = express();
 
 // Parse JSON payloads in incoming requests
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
 
 // Configure CORS middleware to allow requests from a specified origin
 app.use(cors({
@@ -35,6 +38,8 @@ app.use('/ping', function(req, res) {
 
 // Routes for the 'user' module
 app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/course', courseRoutes)
+app.use('/api/v1/course', paymentRoutes)
 
 // Handle all other routes with a 404 error response
 app.all('*', (req, res) => {

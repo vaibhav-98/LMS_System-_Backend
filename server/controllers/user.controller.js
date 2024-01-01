@@ -299,11 +299,12 @@ const changePassword = async (req,res) => {
 
 }
 //=============================== updateUser ===========================================================
-const updateUser = async (req,res) => {
+const updateUser = async (req,res,next) => {
    const { fullName } = req.body;
    const { id } = req.user.id ; // Auth.js
-
+  console.log({id});
    const user = await User.findById(id)
+   console.log({user});
 
    if(!user){
     return next (
